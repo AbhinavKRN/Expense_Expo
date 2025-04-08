@@ -1,4 +1,3 @@
-// src/screens/Expenses/AddExpenseScreen.tsx
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { TextInput, Button, Title, Text, Chip, RadioButton, Menu } from 'react-native-paper';
@@ -29,7 +28,7 @@ const AddExpenseScreen = () => {
   const { addExpense } = useExpenseStore();
   const { currentUser } = useUserStore();
   
-  const group = groups.find(g => g.id === groupId);
+  const group = groups.find((g: { id: string; }) => g.id === groupId);
   
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -52,7 +51,7 @@ const AddExpenseScreen = () => {
   
   // Initialize custom splits if empty
   if (customSplits.length === 0 && group.members.length > 0) {
-    const initialSplits = group.members.map(member => ({
+    const initialSplits = group.members.map((member: { id: any; }) => ({
       userId: member.id,
       amount: 0,
     }));
@@ -72,7 +71,7 @@ const AddExpenseScreen = () => {
     
     const amountPerPerson = parseFloat(amount) / numMembers;
     
-    return group.members.map(member => ({
+    return group.members.map((member: { id: any; }) => ({
       userId: member.id,
       amount: amountPerPerson,
     }));
@@ -196,13 +195,13 @@ const AddExpenseScreen = () => {
       <View style={styles.payerContainer}>
         <Text style={styles.label}>Paid by</Text>
         <View style={styles.payerOptions}>
-          {group.members.map(member => (
+          {group.members.map((member: { id: React.Key | null | undefined; name: any; }) => (
             <RadioButton.Item
               key={member.id}
               label={`${member.name} ${member.id === currentUser.id ? '(You)' : ''}`}
-              value={member.id}
+              value={member.id?.toString() ?? ''}
               status={payerId === member.id ? 'checked' : 'unchecked'}
-              onPress={() => setPayerId(member.id)}
+              onPress={() => setPayerId(member.id?.toString() ?? '')}
             />
           ))}
         </View>
@@ -241,7 +240,7 @@ const AddExpenseScreen = () => {
                 : 'Splits do not match total amount'}
             </Text>
             
-            {group.members.map(member => (
+            {group.members.map((member: { id: React.Key | null | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) => (
               <View key={member.id} style={styles.customSplitItem}>
                 <Text style={styles.memberName}>
                   {member.name} {member.id === currentUser.id ? '(You)' : ''}
@@ -251,7 +250,7 @@ const AddExpenseScreen = () => {
                   value={
                     customSplits.find(split => split.userId === member.id)?.amount.toString() || '0'
                   }
-                  onChangeText={(value) => updateCustomSplit(member.id, value)}
+                  onChangeText={(value) => updateCustomSplit(member.id?.toString() || '', value)}
                   style={styles.splitInput}
                   mode="outlined"
                   keyboardType="decimal-pad"

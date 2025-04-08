@@ -1,4 +1,3 @@
-// src/screens/Groups/GroupDetailsScreen.tsx
 import React, { useState } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
@@ -10,7 +9,7 @@ import { useGroupStore } from '../../store/groupStore';
 import { useExpenseStore } from '../../store/expenseStore';
 import { useUserStore } from '../../store/userStore';
 import { RootStackParamList } from '../../navigation';
-import { Expense } from '../../types';
+import { Expense, Group } from '../../types';
 
 type GroupDetailsRouteProp = RouteProp<RootStackParamList, 'GroupDetails'>;
 type GroupDetailsNavigationProp = StackNavigationProp<RootStackParamList, 'GroupDetails'>;
@@ -26,7 +25,7 @@ const GroupDetailsScreen = () => {
   
   const [showMembersDialog, setShowMembersDialog] = useState(false);
   
-  const group = groups.find(g => g.id === groupId);
+  const group = groups.find((g: Group) => g.id === groupId);
   const expenses = getExpensesByGroup(groupId);
   const balances = calculateBalances(groupId);
   
@@ -39,7 +38,7 @@ const GroupDetailsScreen = () => {
   }
   
   const getUserBalance = (userId: string) => {
-    const balance = balances.find(b => b.userId === userId);
+    const balance = balances.find((b: any) => b.userId === userId);
     return balance ? balance.amount : 0;
   };
   
@@ -66,7 +65,7 @@ const GroupDetailsScreen = () => {
     );
   };
   
-  const renderMemberItem = ({ item }) => {
+  const renderMemberItem = ({ item }: { item: any }) => {
     const balance = getUserBalance(item.id);
     const balanceText = balance === 0 
       ? 'Settled up' 

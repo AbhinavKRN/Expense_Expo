@@ -1,4 +1,3 @@
-// src/screens/Groups/HomeScreen.tsx
 import React, { useEffect } from 'react';
 import { View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -10,7 +9,7 @@ import { useGroupStore } from '../../store/groupStore';
 import { useExpenseStore } from '../../store/expenseStore';
 import { useUserStore } from '../../store/userStore';
 import { RootStackParamList } from '../../navigation';
-import { Group } from '../../types';
+import { Balance, Group } from '../../types';
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>;
 
@@ -31,8 +30,8 @@ const HomeScreen = () => {
   const getTotalBalance = (groupId: string) => {
     if (!currentUser) return 0;
     
-    const balances = calculateBalances(groupId);
-    const userBalance = balances.find(b => b.userId === currentUser.id);
+    const balances: Balance[] = calculateBalances(groupId);
+    const userBalance = balances.find((b: Balance) => b.userId === currentUser.id);
     return userBalance ? userBalance.amount : 0;
   };
 

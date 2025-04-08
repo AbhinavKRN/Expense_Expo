@@ -22,16 +22,16 @@ const ProfileScreen = () => {
     );
   }
   
-  const userGroups = groups.filter(group => 
+  const userGroups = groups.filter((group: { members: any[]; }) => 
     group.members.some(member => member.id === currentUser.id)
   );
   
   const getTotalBalance = () => {
     let total = 0;
     
-    userGroups.forEach(group => {
-      const balances = calculateBalances(group.id);
-      const userBalance = balances.find(b => b.userId === currentUser.id);
+    userGroups.forEach((group: { id: any; }) => {
+      const balances = calculateBalances(group.id as string);
+      const userBalance = balances.find((b: { userId: any; }) => b.userId === currentUser.id);
       if (userBalance) {
         total += userBalance.amount;
       }
@@ -149,9 +149,9 @@ const ProfileScreen = () => {
         {userGroups.length === 0 ? (
           <Text style={styles.emptyText}>You haven't joined any groups yet.</Text>
         ) : (
-          userGroups.map(group => {
-            const balances = calculateBalances(group.id);
-            const userBalance = balances.find(b => b.userId === currentUser.id);
+          userGroups.map((group: { id: React.Key | null | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; members: string | any[]; }) => {
+            const balances = calculateBalances(group.id as string);
+            const userBalance = balances.find((b: { userId: any; }) => b.userId === currentUser.id);
             const balance = userBalance ? userBalance.amount : 0;
             
             return (
