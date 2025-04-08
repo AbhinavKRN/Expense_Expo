@@ -24,6 +24,7 @@ A simplified version of a Splitwise-style Expense Tracker app built with React N
 
 1. Clone the repository:
     git clone https://github.com/yourusername/expense-tracker.git
+    
     cd expense-tracker
 
 2. Install dependencies:
